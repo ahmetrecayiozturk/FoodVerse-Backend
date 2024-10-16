@@ -49,17 +49,32 @@ exports.getAdderByFood = async function(req, res, next) {
         next(error);
     }
 };
-
-exports.findFoodsByOnlyIngredients = async function (req, res, next){
+/*----------------içindekilerde 2 adet su olan yemekte su artırsak o yemek de çıkacak-------------------
+exports.findFoodsByOnlyIngredients = async function (req, res, next) {
     try {
-        const {ingredients} = req.body;
+        const { ingredients } = req.body;
         const foods = await FoodService.findFoodsByOnlyIngredients(ingredients);
         res.json(foods);
     } catch (error) {
         next(error);
     }
 }
+*/
+exports.findFoodsByOnlyIngredients = async function (req, res, next) {
+    try {
+        const { ingredients } = req.body;
 
+        // ingredients değişkeninin bir dizi olup olmadığını kontrol et
+        if (!Array.isArray(ingredients)) {
+            throw new TypeError('ingredients must be an array');
+        }
+
+        const foods = await FoodService.findFoodsByOnlyIngredients(ingredients);
+        res.json(foods);
+    } catch (error) {
+        next(error);
+    }
+}
 exports.returnAllFoodByCategory = async function (req,res,next){
     try {
         const {category} = req.body;

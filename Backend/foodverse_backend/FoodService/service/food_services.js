@@ -31,6 +31,7 @@ class FoodService {
             throw error;
         }
     }
+    /*----------------içindekilerde 2 adet su olan yemekte su artırsak o yemek de çıkacak-------------------
     // Find Food by only ingredients
     static async findFoodsByOnlyIngredients(ingredients) {
         try {
@@ -39,7 +40,27 @@ class FoodService {
         } catch (error) {
             throw error;
         }
-    }
+    }*/
+        static async findFoodsByOnlyIngredients(ingredients) {
+            // ingredients değişkeninin bir dizi olup olmadığını kontrol et
+            if (!Array.isArray(ingredients)) {
+                throw new TypeError('ingredients must be an array');
+            }
+    
+            // Veritabanındaki tüm yiyecekleri al
+            const allFoods = await FoodModel.find();
+    
+            // Filtrelenmiş yiyecekler listesi
+            const filteredFoods = allFoods.filter(food => {
+                return ingredients.some(ingredient => 
+                    food.ingredients.some(foodIngredient => 
+                        foodIngredient.toLowerCase().includes(ingredient.toLowerCase())
+                    )
+                );
+            });
+    
+            return filteredFoods;
+        }
     // Get adder by food properties
     static async getAdderByFood(name, ingredients, preparing) {
         try {
