@@ -1,6 +1,6 @@
 const amqp = require('amqplib');
 
-const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://localhost'; // IP adresi veya localhost kullanın
+const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://rabbitmq'; // IP adresi veya localhost kullanın
 const QUEUE = 'user_registration'; // Kuyruk adı
 
 async function consume() {

@@ -5,7 +5,7 @@ let channel = null;
 const connectRabbitMQ = async () => {
     try {
         if (!channel) {
-            const connection = await amqp.connect('amqp://localhost');
+            const connection = await amqp.connect('amqp://rabbitmq');
             channel = await connection.createChannel();
             await channel.assertQueue('user_registration', { durable: true });
         }
