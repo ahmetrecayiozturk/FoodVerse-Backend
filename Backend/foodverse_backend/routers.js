@@ -17,6 +17,9 @@ router.post('/registration', (req, res, next) => {
 router.post('/login', (req, res, next) => {
     UserController.login(req, res, next);
 });
+router.post('/deleteAccount', (req, res, next) => {
+    UserController.deleteUser(req, res, next);
+});
 router.post('/saved-foods',(req,res,nest)=>{
     savedFoodController.saveFood(req, res, nest);
 })

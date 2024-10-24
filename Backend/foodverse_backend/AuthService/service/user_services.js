@@ -3,9 +3,11 @@
 const UserModel = require('../model/user_model');
 const jwt = require('jsonwebtoken');
 const amqp = require('amqplib');
-
+const { consume } = require('../../config/consumer.js'); // Tüketici fonksiyonunu import edin
 // RabbitMQ bağlantı URL'si
-const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://rabbitmq:5672';
+//const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://rabbitmq:15672';
+const RABBITMQ_URL = 'amqp://localhost';
+
 const QUEUE = 'user_registration'; // Kuyruk adı
 
 class UserService {
@@ -18,8 +20,8 @@ class UserService {
 
                 // RabbitMQ'ya mesaj gönderme işlemi
                 await sendToQueue({ email }); // Kuyruğa mesaj gönder
-
                 return newUser;
+                
             } else {
                 throw new Error("User Already Exist");
             }
@@ -72,6 +74,11 @@ async function sendToQueue(message) {
     }
 
 }
+
+consume();
+module.exports = UserService;
+
+
 /*
 const { connectRabbitMQ, getChannel } = require('../../config/rabbitmq.js');
 
@@ -96,7 +103,6 @@ const sendToQueue = async (message) => {
     }
 };
 */
-module.exports = UserService;
 
 
 /*
